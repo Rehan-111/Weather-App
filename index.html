@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="enter city name" spellcheck="false">
+            <button><img src="weather-app-img/images/search.png"></button>
+        </div>
+        <div class="weather">
+            <img src="weather-app-img/images/rain.png" class="weather-icon">
+            <h1 class="temp">22°C</h1>
+            <h2 class="city">Lucknow</h2>
+            <div class="details">
+                <div class="col">
+                    <img src="weather-app-img/images/humidity.png">
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="weather-app-img/images/wind.png">
+                    <div>
+                        <p class="wind">15km/h</p>
+                        <p>Wind Speed</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <script>
+    const apiKey= "a193f64bd72996631dffe34bd0f4fb48"
+    const apiUrl= "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
+
+
+    const searchBox= document.querySelector(".search input");
+    const searchBtn= document.querySelector(".search button");
+
+    async function checkWeather(city){
+        const response=await fetch(apiUrl + city + `&appid=${apiKey}`);
+        var data= await response.json();
+
+        if (data.cod !== 200){
+            alert("city not found")
+        }
+        
+
+        document.querySelector(".city").innerHTML=data.name;
+        document.querySelector(".temp").innerHTML=Math.round(data.main.temp )+ "°C";
+        document.querySelector(".humidity").innerHTML=data.main.humidity + "%";
+        document.querySelector(".wind").innerHTML=data.wind.speed +"km/h";
+
+        const weatherIcon = document.querySelector(".weather-icon");
+        
+        const card = document.querySelector(".card");
+
+        const condition = data.weather[0].main.toLowerCase();
+
+        // day/night detection
+        const currentTime=data.dt;
+        const sunrise=data.sys.sunrise;
+        const sunset=data.sys.sunset;
+
+        const isDay=currentTime>=sunrise&&currentTime<sunset
+
+        //icon Logic
+        if(condition==="clear"){
+            weatherIcon.src=isDay
+            ? "weather-app-img/images/clear.png"
+            : "weather-app-img/images/night.png"
+        }
+        else if(condition==="clouds"){
+            weatherIcon.src="weather-app-img/images/clouds.png"
+        }
+        else if (data.weather[0].main === "Clear") {
+        weatherIcon.src = "weather-app-img/images/clear.png";
+        } 
+        else if (data.weather[0].main === "Rain") {
+        weatherIcon.src = "weather-app-img/images/rain.png";
+        }
+         else if (data.weather[0].main === "Drizzle") {
+        weatherIcon.src = "weather-app-img/images/drizzle.png";
+        }
+         else if (data.weather[0].main === "Mist") {
+        weatherIcon.src = "weather-app-img/images/mist.png";
+        }
+        if (condition === "clear") {
+             card.style.background = isDay
+                ? "linear-gradient(135deg, #00feba, #5b548a)"   // day
+                : "linear-gradient(135deg, #141E30, #243B55)"; // night
+        }
+        else if (condition === "rain") {
+            card.style.background = "linear-gradient(135deg, #4e54c8, #8f94fb)";
+        }
+        else if (condition === "clouds") {
+            card.style.background = "linear-gradient(135deg, #bdc3c7, #2c3e50)";
+        }
+        else if (condition === "mist") {
+            card.style.background = "linear-gradient(135deg, #757f9a, #d7dde8)";
+        }
+    
+
+
+        
+    }
+    searchBtn.addEventListener("click", ()=>{
+        checkWeather(searchBox.value);
+    })
+
+    checkWeather("Lucknow");
+    </script>
+
+    
+</body>
+</html>
