@@ -8,26 +8,30 @@
 </head>
 <body>
     <div class="card">
+        
+        <div class="stars"></div>
+
+
         <div class="search">
             <input type="text" placeholder="enter city name" spellcheck="false">
             <button><img src="weather-app-img/images/search.png"></button>
         </div>
         <div class="weather">
             <img src="weather-app-img/images/rain.png" class="weather-icon">
-            <h1 class="temp">22°C</h1>
+            <h1 class="temp"></h1>
             <h2 class="city">Lucknow</h2>
             <div class="details">
                 <div class="col">
                     <img src="weather-app-img/images/humidity.png">
                     <div>
-                        <p class="humidity">50%</p>
+                        <p class="humidity"></p>
                         <p>Humidity</p>
                     </div>
                 </div>
                 <div class="col">
                     <img src="weather-app-img/images/wind.png">
                     <div>
-                        <p class="wind">15km/h</p>
+                        <p class="wind"></p>
                         <p>Wind Speed</p>
                     </div>
                 </div>
@@ -70,6 +74,39 @@
         const sunset=data.sys.sunset;
 
         const isDay=currentTime>=sunrise&&currentTime<sunset
+        
+        const stars = document.querySelector(".stars");
+        const body = document.body;
+
+// // 🌙 Night mode
+//         if (!isDay) {
+//             body.style.background = "linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #000000)";
+//         } 
+// // ☀️ Day mode
+//         else {
+//             body.style.background = "linear-gradient(-45deg, #56ccf2, #2f80ed, #00c6ff, #0072ff)";
+//         }
+
+//         if (!isDay && condition === "clear") {
+//             weatherIcon.style.filter = "drop-shadow(0 0 25px rgba(255,255,200,0.8))";
+//         } else {
+//             weatherIcon.style.filter = "drop-shadow(0 0 20px rgba(255,255,255,0.3))";
+//         }
+
+        // const hour = new Date().getHours();
+
+        // if (hour >= 5 && hour <= 7) {
+        //     body.style.background = "linear-gradient(-45deg, #ff9966, #ff5e62)";
+        // }
+        // if (hour >= 17 && hour <= 19) {
+        //     body.style.background = "linear-gradient(-45deg, #ff7e5f, #feb47b)";
+        // }
+
+        // if (!isDay) {
+        //     stars.style.opacity = "0.6"; // show stars
+        // } else {
+        //     stars.style.opacity = "0"; // hide stars
+        // }
 
         //icon Logic
         if(condition==="clear"){
@@ -115,7 +152,7 @@
         checkWeather(searchBox.value);
     })
 
-    checkWeather("Lucknow");
+    checkWeather("Delhi");
     </script>
 
     
